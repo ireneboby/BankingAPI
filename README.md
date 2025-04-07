@@ -1,19 +1,27 @@
 # BankingAPI
 
-A simple RESTful API built with Spring Boot to simulate basic banking operations like account creation and (coming soon) fund transfers.
+A simple RESTful API built with Spring Boot to simulate basic banking operations like account creation and fund transfers.
 
 ## Features
 
 - Create user accounts with an initial balance
-- (To do) Transfer funds between accounts
-- (To do) Retrieve transaction history
+- Transfer funds between accounts
+- Retrieve transaction history
 - Clean 3-layer architecture: Controller → Service → Repository
 
 ## Assumptions
 
-- Account IDs are generated automatically (in-memory counter)
-- Balances are handled using BigDecimal for precision
-- No memory peristence yet - this is a prototype, not production-ready
+- Account IDs are generated automatically using an in-memory counter
+- Account Balances are handled using `BigDecimal` for currency precision
+- No memory persistence yet — this is a prototype, not production-ready
+- All data is lost on app restart (in-memory only)
+- No authentication or authorization is implemented
+- Negative balances are not allowed
+- Transaction history is not filtered (returns full history)
+- Swagger is used as the only form of documentation
+- Only basic validation is performed (e.g. null checks, amount > 0)
+- Account names are not validated for uniqueness or formatting
+- Currency is not supported (i.e. all amounts are assumed to be in a single currency like USD)
 
 ## Tech Stack
 
@@ -27,9 +35,12 @@ A simple RESTful API built with Spring Boot to simulate basic banking operations
 
 - Java 21 installed
 
-### Clone the repo and cd into the project directory
+### Clone the repo
 
 `git clone https://github.com/ireneboby/BankingAPI.git`
+
+### Navigate to the project directory
+
 `cd BankingAPI`
 
 ### Run the app
@@ -38,13 +49,4 @@ A simple RESTful API built with Spring Boot to simulate basic banking operations
 The app will start on `http://localhost:8080`
 
 ### Use Swagger to test API endpoints
-`http://localhost:8080/swagger-ui.html`
-
-### Playground 
-curl -X POST http://localhost:8080/api/accounts \
--H "Content-Type: application/json" \
--d '{
-  "firstName": "Ava",
-  "lastName": "Lovegood",
-  "initialBalance": 1000.00
-}'
+Open in browser: `http://localhost:8080/swagger-ui.html`
