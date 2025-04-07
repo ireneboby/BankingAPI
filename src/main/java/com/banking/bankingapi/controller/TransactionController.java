@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/transaction")
+@RequestMapping("/api/transactions")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -22,23 +22,23 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody TransactionRequest request) {
+    @PostMapping("/transfer")
+    public ResponseEntity<?> createTransaction(@RequestBody TransactionRequest request) {
         try {
             Transaction newTransaction = transactionService.transferFunds(request);
             return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping
-    public ResponseEntity<List<TransactionHistoryResponse>> getTransactionHistory(@RequestParam Long accountId) {
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<?> getTransactionHistory(@PathVariable Long accountId) {
         try {
-           List<TransactionHistoryResponse> history = transactionService.getHistory(accountId);
+            List<TransactionHistoryResponse> history = transactionService.getHistory(accountId);
             return new ResponseEntity<>(history, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
         }
     }
 }

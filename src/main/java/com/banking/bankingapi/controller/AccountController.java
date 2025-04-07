@@ -22,13 +22,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping
-    public ResponseEntity<Account> createAccount(@RequestBody CreateAccountRequest request) {
+    @PostMapping("/create")
+    public ResponseEntity<?> createAccount(@RequestBody CreateAccountRequest request) {
         try {
             Account createdAccount = accountService.createAccount(request);
             return new ResponseEntity<>(createdAccount, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -37,7 +37,7 @@ public class AccountController {
         try {
             List<AccountListResponse> accounts = accountService.listAccounts();
             return new ResponseEntity<>(accounts, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
