@@ -69,8 +69,7 @@ Returns a list of transactions where the account was a sender or receiver.
 
 - Account IDs are generated automatically using an in-memory counter
 - Account Balances are handled using `BigDecimal` for currency precision
-- No memory persistence yet — this is a prototype, not production-ready
-- All data is lost on app restart (in-memory only)
+- No memory persistence yet — data is lost on app restart (in-memory only)
 - No authentication or authorization is implemented
 - Negative balances are not allowed
 - Transaction history is not filtered (returns full history)
