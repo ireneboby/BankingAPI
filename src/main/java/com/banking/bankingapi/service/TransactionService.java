@@ -1,6 +1,7 @@
 package com.banking.bankingapi.service;
 
 import com.banking.bankingapi.dto.TransactionRequest;
+import com.banking.bankingapi.dto.TransactionHistoryResponse;
 import com.banking.bankingapi.model.Account;
 import com.banking.bankingapi.model.Transaction;
 import com.banking.bankingapi.repository.AccountRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -36,7 +38,6 @@ public class TransactionService {
         }
 
         Account sender = accountRepository.findById(senderId).orElseThrow(() -> new IllegalArgumentException("Sender account not found"));
-
         Account receiver = accountRepository.findById(receiverId).orElseThrow(() -> new IllegalArgumentException("Receiver account not found"));
 
         if (sender.getBalance().compareTo(transferAmount) < 0) {
@@ -56,5 +57,25 @@ public class TransactionService {
         );
 
         return transactionRepository.save(transaction);
+    }
+
+    public List<TransactionHistoryResponse> getHistory(Long accountId) {
+        if (accountId == null) {
+            throw new IllegalArgumentException("Account ID required.");
+        }
+
+        if (!accountRepository.existsById(accountId)) {
+            throw new IllegalArgumentException("Account ID not associated with any account.");
+        }
+
+        List<Transaction> history = transactionRepository.findByAccountId(accountId);
+
+        return history.stream()
+            .map(t -> {
+                String direction = t.getSenderId().equals(accountId) ? "SENT" : "RECEIVED";
+                Long counterparty = t.getSenderId().equals(accountId) ? t.getReceiverId() : t.getSenderId();
+                return new TransactionHistoryResponse(t.getDateTime(), t.getTransferAmount(), direction, counterparty);
+            })
+            .toList();
     }
 }
