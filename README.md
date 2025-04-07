@@ -31,6 +31,9 @@ A simple RESTful API built with Spring Boot to simulate basic banking operations
 `./gradlew bootRun`
 The app will start on `http://localhost:8080`
 
+### Use Swagger to test API endpoints
+`http://localhost:8080/swagger-ui.html`
+
 ### Playground 
 curl -X POST http://localhost:8080/api/accounts \
 -H "Content-Type: application/json" \
