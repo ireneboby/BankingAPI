@@ -9,6 +9,12 @@ A simple RESTful API built with Spring Boot to simulate basic banking operations
 - (To do) Retrieve transaction history
 - Clean 3-layer architecture: Controller → Service → Repository
 
+## Assumptions
+
+- Account IDs are generated automatically (in-memory counter)
+- Balances are handled using BigDecimal for precision
+- No memory peristence yet - this is a prototype, not production-ready
+
 ## Tech Stack
 
 - Java 21
