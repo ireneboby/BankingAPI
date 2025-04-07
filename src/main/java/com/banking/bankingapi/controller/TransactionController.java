@@ -28,7 +28,7 @@ public class TransactionController {
             Transaction newTransaction = transactionService.transferFunds(request);
             return new ResponseEntity<>(newTransaction, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -38,7 +38,7 @@ public class TransactionController {
             List<TransactionHistoryResponse> history = transactionService.getHistory(accountId);
             return new ResponseEntity<>(history, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }
