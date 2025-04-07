@@ -16,28 +16,43 @@ A simple RESTful API built with Spring Boot to simulate basic banking operations
 - Spring Boot 3.4.4
 - Spring Web
 
+---
 ## User Guide
+
+This project uses **Gradle** to build and run the Spring Boot application.
 
 ### Prerequisites
 
 Java 21 installed
 
-### Clone the repo
+### Running the App (Dev Mode)
+
+#### Clone the repo
 
 `git clone https://github.com/ireneboby/BankingAPI.git`
 
-### Navigate to the project directory
+#### Navigate to the project directory
 
 `cd BankingAPI`
 
-### Run the app
+#### Run the app
 
 `./gradlew bootRun`  
 The app will start on `http://localhost:8080`
 
-### Use Swagger to test API endpoints
+#### Use Swagger to test API endpoints
 Open in browser: `http://localhost:8080/swagger-ui.html`
 
+### To Build
+
+#### Build the executable JAR file:
+`./gradlew clean build`  
+This will generate a JAR file in the `build/libs/` directory.
+
+#### Run the JAR File
+`java -jar build/libs/<FILNAME>.jar`
+
+---
 ## API Endpoints
 
 All endpoints return:
@@ -48,7 +63,7 @@ All endpoints return:
 
 #### Create a new account  
 `POST /api/accounts`   
-Request Body: ```json { "firstName": "Luna", "lastName": "Lovegood", "initialBalance": 1000.00 }```
+Request Body: `{ "firstName": "Luna", "lastName": "Lovegood", "initialBalance": 1000.00 }`
 
 #### List All Accounts
 `GET /api/accounts`  
@@ -59,11 +74,14 @@ Returns a list of all account summaries.
 #### Transfer Funds
 `POST /api/transactions/transfer`  
 Transfers funds between accounts.  
-Request Body: ```json {"senderId": 1, "receiverId": 2, "transferAmount": 250.00}```
+Request Body: `{"senderId": 1, "receiverId": 2, "transferAmount": 250.00}`
 
-### Transaction History
+#### Transaction History
+
 `GET /api/transactions/account/{accountId}`   
 Returns a list of transactions where the account was a sender or receiver.
+
+---
 
 ## Assumptions
 
